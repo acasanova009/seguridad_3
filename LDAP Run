@@ -1,0 +1,11 @@
+docker run --detach \
+  --name openldap \
+  --hostname ldap.lab.local \
+  -p 389:3890 \
+  -p 636:6360 \
+  -e OPENLDAP_BOOTSTRAP_ORGANIZATION="Lab Org" \
+  -e OPENLDAP_BOOTSTRAP_SUFFIX="dc=lab,dc=local" \
+  -v openldap-conf:/etc/openldap/slapd.d \
+  -v openldap-data:/var/lib/openldap/openldap-data \
+  -v openldap-backups:/var/lib/openldap/openldap-backups \
+  osixia/openldap:latest
