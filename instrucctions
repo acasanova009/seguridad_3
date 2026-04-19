@@ -1,0 +1,2 @@
+docker run --name open --detach ldap-with-files:v1.1
+
