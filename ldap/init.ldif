@@ -1,0 +1,73 @@
+dn: ou=Desarrollo,dc=lab,dc=local
+objectClass: organizationalUnit
+ou: Desarrollo
+
+dn: ou=Seguridad,dc=lab,dc=local
+objectClass: organizationalUnit
+ou: Seguridad
+
+dn: uid=usuario.desarrollo1,ou=Desarrollo,dc=lab,dc=local
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Usuario Desarrollo1
+sn: Desarrollo1
+uid: usuario.desarrollo1
+mail: usuario.desarrollo1@lab.local
+userPassword: desarrollo123
+
+dn: uid=usuario.desarrollo2,ou=Desarrollo,dc=lab,dc=local
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Usuario Desarrollo2
+sn: Desarrollo2
+uid: usuario.desarrollo2
+mail: usuario.desarrollo2@lab.local
+userPassword: desarrollo123
+
+dn: uid=usuario.desarrollo3,ou=Desarrollo,dc=lab,dc=local
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Usuario Desarrollo3
+sn: Desarrollo3
+uid: usuario.desarrollo3
+mail: usuario.desarrollo3@lab.local
+userPassword: desarrollo123
+
+dn: uid=usuario.seguridad1,ou=Seguridad,dc=lab,dc=local
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Usuario Seguridad1
+sn: Seguridad1
+uid: usuario.seguridad1
+mail: usuario.seguridad1@lab.local
+userPassword: seguridad123
+
+dn: uid=usuario.seguridad2,ou=Seguridad,dc=lab,dc=local
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Usuario Seguridad2
+sn: Seguridad2
+uid: usuario.seguridad2
+mail: usuario.seguridad2@lab.local
+userPassword: seguridad123
+
+dn: uid=usuario.seguridad3,ou=Seguridad,dc=lab,dc=local
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Usuario Seguridad3
+sn: Seguridad3
+uid: usuario.seguridad3
+mail: usuario.seguridad3@lab.local
+userPassword: seguridad123
