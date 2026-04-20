@@ -24,7 +24,7 @@ services:
     volumes:
       - ldap-data:/var/lib/ldap
       - ldap-config:/etc/ldap/slapd.d
-      - ./certs:/container/service/slapd/assets/certs/
+      - ldap-certs:/container/service/slapd/assets/certs/
     ports:
       - "389:389"
       - "636:636"
@@ -43,29 +43,42 @@ services:
       - openldap
 
   postgresql:
-    image: postgres:14-alpine
-    container_name: privacyidea-postgresql
+    image: postgres:15-alpine
+    container_name: postgresql
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_DB: privacyidea
       POSTGRES_USER: privacyidea
       POSTGRES_PASSWORD: privacyidea
     volumes:
-      - postgresql-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
+      - postgres_data:/var/lib/postgresql/data
 
   privacyidea:
-    image: khalibre/privacyidea:3.12.2
+    image: kheeklab/privacyidea:dev
     container_name: privacyidea
-    volumes:
-      - ./privacyidea/pi.cfg:/etc/privacyidea/pi.cfg
     ports:
-      - "8081:80"
+      - "9000:8080"
+    environment:
+      PI_DB_VENDOR: postgresql
+      PI_DB_NAME: privacyidea
+      PI_DB_HOST: postgresql
+      PI_DB_PORT: 5432
+      PI_DB_USER: privacyidea
+      PI_DB_PASSWORD: privacyidea
+
+      PI_SECRET_KEY: suppersecretkey
+      PI_PEPPER: secretworduseforadminencrypt
+      PI_PAGE_TITLE: privacyIDEA
+
+      PI_ADMIN_USER: admin
+      PI_ADMIN_PASSWORD: admin123
     depends_on:
       - postgresql
-      - openldap
+
 
 volumes:
   ldap-data:
   ldap-config:
-  postgresql-data:
+  ldap-certs:
+  postgres_data:
