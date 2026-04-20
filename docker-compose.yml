@@ -1,7 +1,10 @@
+version: "3.8"
+
 services:
   openldap:
     image: osixia/openldap:1.5.0
     container_name: openldap
+    restart: unless-stopped
     environment:
       LDAP_LOG_LEVEL: "256"
       LDAP_ORGANISATION: "Nova Inc."
@@ -30,10 +33,13 @@ services:
       - "636:636"
     domainname: "nova.org"
     hostname: "ldap"
+    networks:
+      - iam-net
 
   phpldapadmin:
     image: osixia/phpldapadmin:latest
     container_name: phpldapadmin
+    restart: unless-stopped
     environment:
       PHPLDAPADMIN_LDAP_HOSTS: "openldap"
       PHPLDAPADMIN_HTTPS: "false"
@@ -41,24 +47,29 @@ services:
       - "8080:80"
     depends_on:
       - openldap
+    networks:
+      - iam-net
 
   postgresql:
     image: postgres:15-alpine
     container_name: postgresql
-    ports:
-      - "5432:5432"
+    restart: unless-stopped
     environment:
       POSTGRES_DB: privacyidea
       POSTGRES_USER: privacyidea
       POSTGRES_PASSWORD: privacyidea
+    ports:
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    networks:
+      - iam-net
 
   privacyidea:
     image: kheeklab/privacyidea:dev
     container_name: privacyidea
-    ports:
-      - "9000:8080"
+    restart: unless-stopped
     environment:
       PI_DB_VENDOR: postgresql
       PI_DB_NAME: privacyidea
@@ -66,55 +77,28 @@ services:
       PI_DB_PORT: 5432
       PI_DB_USER: privacyidea
       PI_DB_PASSWORD: privacyidea
-
       PI_SECRET_KEY: suppersecretkey
       PI_PEPPER: secretworduseforadminencrypt
       PI_PAGE_TITLE: privacyIDEA
-
       PI_ADMIN_USER: admin
       PI_ADMIN_PASSWORD: admin123
+    ports:
+      - "9000:8080"
     depends_on:
       - postgresql
-  owncloud:
-    image: owncloud/server:${OWNCLOUD_VERSION}
-    container_name: owncloud_server
-    restart: always
-    ports:
-      - 8081:8080
-    depends_on:
-      - mariadb
-      - redis
-    environment:
-      - OWNCLOUD_DOMAIN=${OWNCLOUD_DOMAIN}
-      - OWNCLOUD_TRUSTED_DOMAINS=${OWNCLOUD_TRUSTED_DOMAINS}
-      - OWNCLOUD_DB_TYPE=mysql
-      - OWNCLOUD_DB_NAME=owncloud
-      - OWNCLOUD_DB_USERNAME=owncloud
-      - OWNCLOUD_DB_PASSWORD=owncloud
-      - OWNCLOUD_DB_HOST=mariadb
-      - OWNCLOUD_ADMIN_USERNAME=${ADMIN_USERNAME}
-      - OWNCLOUD_ADMIN_PASSWORD=${ADMIN_PASSWORD}
-      - OWNCLOUD_MYSQL_UTF8MB4=true
-      - OWNCLOUD_REDIS_ENABLED=true
-      - OWNCLOUD_REDIS_HOST=redis
-    healthcheck:
-      test: ["CMD", "/usr/bin/healthcheck"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    volumes:
-      - files:/mnt/data
+    networks:
+      - iam-net
 
   mariadb:
-    image: mariadb:10.11 # minimum required ownCloud version is 10.9
+    image: mariadb:10.11
     container_name: owncloud_mariadb
-    restart: always
+    restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD=owncloud
-      - MYSQL_USER=owncloud
-      - MYSQL_PASSWORD=owncloud
-      - MYSQL_DATABASE=owncloud
-      - MARIADB_AUTO_UPGRADE=1
+      MYSQL_ROOT_PASSWORD: owncloud
+      MYSQL_USER: owncloud
+      MYSQL_PASSWORD: owncloud
+      MYSQL_DATABASE: owncloud
+      MARIADB_AUTO_UPGRADE: "1"
     command: ["--max-allowed-packet=128M", "--innodb-log-file-size=64M"]
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-u", "root", "--password=owncloud"]
@@ -123,11 +107,13 @@ services:
       retries: 5
     volumes:
       - mysql:/var/lib/mysql
+    networks:
+      - iam-net
 
   redis:
     image: redis:6
     container_name: owncloud_redis
-    restart: always
+    restart: unless-stopped
     command: ["--databases", "1"]
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -136,7 +122,61 @@ services:
       retries: 5
     volumes:
       - redis:/data
+    networks:
+      - iam-net
 
+  owncloud:
+    image: owncloud/server:10.15
+    container_name: owncloud_server
+    restart: unless-stopped
+    environment:
+      OWNCLOUD_DOMAIN: localhost:8081
+      OWNCLOUD_TRUSTED_DOMAINS: localhost,127.0.0.1
+      OWNCLOUD_DB_TYPE: mysql
+      OWNCLOUD_DB_NAME: owncloud
+      OWNCLOUD_DB_USERNAME: owncloud
+      OWNCLOUD_DB_PASSWORD: owncloud
+      OWNCLOUD_DB_HOST: mariadb
+      OWNCLOUD_ADMIN_USERNAME: admin
+      OWNCLOUD_ADMIN_PASSWORD: admin123
+      OWNCLOUD_MYSQL_UTF8MB4: "true"
+      OWNCLOUD_REDIS_ENABLED: "true"
+      OWNCLOUD_REDIS_HOST: redis
+    ports:
+      - "8081:8080"
+    depends_on:
+      - mariadb
+      - redis
+    healthcheck:
+      test: ["CMD", "/usr/bin/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - files:/mnt/data
+    networks:
+      - iam-net
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.6.1
+    container_name: keycloak
+    restart: unless-stopped
+    command: start-dev
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgresql
+      KC_DB_URL_PORT: 5432
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloakpass
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin123
+    ports:
+      - "8082:8080"
+    depends_on:
+      - postgresql
+    networks:
+      - iam-net
 
 volumes:
   ldap-data:
@@ -144,8 +184,9 @@ volumes:
   ldap-certs:
   postgres_data:
   files:
-    driver: local
   mysql:
-    driver: local
   redis:
-    driver: local
+
+networks:
+  iam-net:
+    driver: bridge
