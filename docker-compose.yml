@@ -12,7 +12,7 @@ services:
       LDAP_OPENLDAP_UID: "1000"
       LDAP_OPENLDAP_GID: "1010"
       LDAP_BACKEND: "mdb"
-      LDAP_TLS: "true"
+      LDAP_TLS: "false"
       LDAP_TLS_CRT_FILENAME: "ldap.crt"
       LDAP_TLS_KEY_FILENAME: "ldap.key"
       LDAP_TLS_DH_PARAM_FILENAME: "dhparam.pem"
