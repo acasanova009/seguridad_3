@@ -1,6 +1,6 @@
 #!/bin/bash
 
-URL="http://0.0.0.0:8082/realms/nova"
+URL="http://localhost:8082/realms/nova"
 #URL=http://172.19.0.9:8080/realms/nova
 echo "Testing connection to $URL ..."
 echo
