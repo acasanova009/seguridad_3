@@ -11,9 +11,9 @@ services:
     networks:
       - net_iam
 
-  keycloak_server:
+  keycloakserver:
     image: quay.io/keycloak/keycloak:26.6.1
-    container_name: keycloak_server
+    container_name: keycloakserver
     command: start-dev
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME}
@@ -25,7 +25,7 @@ services:
       KC_DB_USERNAME: ${KC_DB_USER}
       KC_DB_PASSWORD: ${KC_DB_PASSWORD}
     ports:
-      - "${KEYCLOAK_PORT}:8080"
+      - ${KEYCLOAK_PORT}:8080
     depends_on:
       - keycloak_db
     networks:

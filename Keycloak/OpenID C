@@ -1,0 +1,23 @@
+Externo
+http://0.0.0.0:8082/realms/myrealm/account
+Interno
+http://keycloak-server:8080/realms/myrealm
+
+Antes de Correr verificar OpenID C en terminal:
+docker exec --user www-data owncloud_server occ app:enable openidconnect
+
+
+docker exec --user www-data owncloud_server occ config:app:set openidconnect openid-connect \
+--value='{"provider-url":"http://0.0.0.0:8082/realms/myrealm",
+          "client-id":"owncloud",
+          "client-secret":"NhVioVp0ZDCUS1YRnE2aFIbt0hPnYXvu",
+          "loginButtonName":"LoginA"}'
+
+Finalmente
+docker exec --user www-data owncloud_server occ config:app:get openidconnect openid-connect
+
+Para system: 
+docker exec --user www-data owncloud_server occ config:list system
+
+Para revisar toda la configuración
+docker exec owncloud_server cat /var/www/owncloud/config/config.php

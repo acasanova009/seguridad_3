@@ -2,17 +2,20 @@ services:
   ldap_server:
     image: osixia/openldap:1.5.0
     container_name: ldap_server
-    hostname: ldap
-    domainname: ${LDAP_DOMAIN}
+    domainname: "nova.org"
+    hostname: "ldap"
+    
     environment:
-      LDAP_LOG_LEVEL: ${LDAP_LOG_LEVEL}
-      LDAP_ORGANISATION: ${LDAP_ORGANISATION}
-      LDAP_DOMAIN: ${LDAP_DOMAIN}
-      LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
-      LDAP_CONFIG_PASSWORD: ${LDAP_CONFIG_PASSWORD}
-      LDAP_READONLY_USER: ${LDAP_READONLY_USER}
-      LDAP_OPENLDAP_UID: ${LDAP_OPENLDAP_UID}
-      LDAP_OPENLDAP_GID: ${LDAP_OPENLDAP_GID}
+
+      LDAP_LOG_LEVEL: "256"
+      LDAP_ORGANISATION: "Nova Inc."
+      LDAP_DOMAIN: "nova.org"
+      LDAP_ADMIN_PASSWORD: "admin"
+      LDAP_CONFIG_PASSWORD: "config"
+      LDAP_READONLY_USER: "false"
+      LDAP_OPENLDAP_UID: "1000"
+      LDAP_OPENLDAP_GID: "1010"
+      
       LDAP_BACKEND: ${LDAP_BACKEND}
       LDAP_TLS: ${LDAP_TLS}
       LDAP_TLS_CRT_FILENAME: ${LDAP_TLS_CRT_FILENAME}
@@ -27,6 +30,9 @@ services:
       - ldap_data:/var/lib/ldap
       - ldap_config:/etc/ldap/slapd.d
       - ldap_certs:/container/service/slapd/assets/certs/
+    ports:
+      - "389:389"
+      - "636:636"
     networks:
       - net_iam
 

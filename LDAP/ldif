@@ -1,0 +1,78 @@
+# =========================
+# OU
+# =========================
+dn: ou=users,dc=nova,dc=org
+objectClass: organizationalUnit
+ou: users
+
+dn: ou=groups,dc=nova,dc=org
+objectClass: organizationalUnit
+ou: groups
+
+# =========================
+# USERS - SEGURIDAD
+# =========================
+dn: uid=seg1,ou=users,dc=nova,dc=org
+objectClass: inetOrgPerson
+cn: seg1
+sn: seg1
+uid: seg1
+userPassword: user
+
+dn: uid=seg2,ou=users,dc=nova,dc=org
+objectClass: inetOrgPerson
+cn: seg2
+sn: seg2
+uid: seg2
+userPassword: user
+
+dn: uid=seg3,ou=users,dc=nova,dc=org
+objectClass: inetOrgPerson
+cn: seg3
+sn: seg3
+uid: seg3
+userPassword: user
+
+# =========================
+# USERS - DESARROLLADOR
+# =========================
+dn: uid=des1,ou=users,dc=nova,dc=org
+objectClass: inetOrgPerson
+cn: des1
+sn: des1
+uid: des1
+userPassword: user
+
+dn: uid=des2,ou=users,dc=nova,dc=org
+objectClass: inetOrgPerson
+cn: des2
+sn: des2
+uid: des2
+userPassword: user
+
+dn: uid=des3,ou=users,dc=nova,dc=org
+objectClass: inetOrgPerson
+cn: des3
+sn: des3
+uid: des3
+userPassword: user
+
+# =========================
+# GROUP: SEGURIDAD
+# =========================
+dn: cn=seguridad,ou=groups,dc=nova,dc=org
+objectClass: groupOfNames
+cn: seguridad
+member: uid=seg1,ou=users,dc=nova,dc=org
+member: uid=seg2,ou=users,dc=nova,dc=org
+member: uid=seg3,ou=users,dc=nova,dc=org
+
+# =========================
+# GROUP: DESARROLLADOR
+# =========================
+dn: cn=desarrollador,ou=groups,dc=nova,dc=org
+objectClass: groupOfNames
+cn: desarrollador
+member: uid=des1,ou=users,dc=nova,dc=org
+member: uid=des2,ou=users,dc=nova,dc=org
+member: uid=des3,ou=users,dc=nova,dc=org

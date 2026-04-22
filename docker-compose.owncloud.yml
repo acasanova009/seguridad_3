@@ -39,14 +39,15 @@ services:
     image: owncloud/server:${OWNCLOUD_VERSION}
     container_name: owncloud_server
     restart: always
-    ports:
-      - "${OWNCLOUD_PORT}:8080"
+    expose:
+      - "8080"
     depends_on:
       - owncloud_mariadb
       - owncloud_redis
     environment:
       OWNCLOUD_DOMAIN: ${OWNCLOUD_DOMAIN}
       OWNCLOUD_TRUSTED_DOMAINS: ${OWNCLOUD_TRUSTED_DOMAINS}
+      OWNCLOUD_OVERWRITE_CLI_URL: http://localhost:${OWNCLOUD_PORT}
       OWNCLOUD_DB_TYPE: mysql
       OWNCLOUD_DB_NAME: ${OWNCLOUD_DB_NAME}
       OWNCLOUD_DB_USERNAME: ${OWNCLOUD_DB_USERNAME}
@@ -64,6 +65,19 @@ services:
       retries: 5
     volumes:
       - owncloud_files:/mnt/data
+    networks:
+      - net_iam
+
+  owncloud_nginx:
+    image: nginx:alpine
+    container_name: owncloud_nginx
+    restart: always
+    depends_on:
+      - owncloud_server
+    ports:
+      - "${OWNCLOUD_PORT}:80"
+    volumes:
+      - ./nginx/owncloud.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - net_iam
 

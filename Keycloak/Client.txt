@@ -1,0 +1,26 @@
+http://0.0.0.0:8082/realms/myrealm/account
+
+Configuración del CLIENTE
+🎯 Tipo
+Client type: OpenID Connect
+Client ID: owncloud
+🔐 Capabilities
+Client authentication: ON
+Authorization: ON
+Standard flow: ON
+Direct access grants: OFF
+🌐 URLs
+Root URL: http://localhost:8081
+Home URL: http://localhost:8081
+
+Valid redirect URIs:
+http://localhost:8081/apps/openidconnect/redirect
+
+Valid post logout redirect URIs:
+http://localhost:8081/*
+
+Web origins:
+http://localhost:8081
+
+Admin URL:
+http://localhost:8081
