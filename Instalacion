@@ -1,70 +1,3 @@
-docker run --rm -it ldap-with-files:v1.1 sh -c "
-ls -R /container/service/slapd/assets/config/bootstrap && \
-echo '---' && \
-ls -R /container/service/slapd/assets/certs && \
-echo '---' && \
-ls -R /container/environment/01-custom
-"
-docker exec -it openldap /bin/bash
-
-
-
-docker rm -f openldap
-docker build -t ldap-with-files:v1.2 .
-docker run -d --name openldap ldap-with-files:v1.2
-
-# wait a few seconds, then:
-docker exec openldap ldapsearch -x -H ldap://localhost \
-  -b dc=example,dc=org \
-  -D "cn=admin,dc=example,dc=org" \
-  -w admin
-
-----------------------------------------------
-
-docker rm -f openldap
-docker build -t ldap-with-files:v1.2 .
-docker run -d --name openldap ldap-with-files:v1.2
-
-docker exec openldap ldapsearch -x -H ldap://localhost \
-  -b dc=nova,dc=org \
-  -D "cn=admin,dc=nova,dc=org" \
-  -w admin
-
-  ------------------
-
-  docker exec -i openldap ldapadd -x -D "cn=admin,dc=nova,dc=org" -w admin <<EOF
-dn: ou=people,dc=nova,dc=org
-objectClass: organizationalUnit
-ou: people
-
-dn: ou=groups,dc=nova,dc=org
-objectClass: organizationalUnit
-ou: groups
-EOF
-
---------------------------------
-docker exec openldap ldapsearch -x -H ldap://localhost \
-  -b dc=nova,dc=org dn
-
-🔎 2. Only users
-
-Most users are under something like ou=people (depends on your setup).
-
-Try:
-
-docker exec openldap ldapsearch -x -H ldap://localhost \
-  -b "dc=nova,dc=org" \
-  "(objectClass=inetOrgPerson)"
-  
-
-
-  🔎 3. Only groups
-docker exec openldap ldapsearch -x -H ldap://localhost \
-  -b "dc=nova,dc=org" \
-  "(objectClass=posixGroup)"
-
-
-
 docker network create net-iam
 
 docker compose -f docker-compose.ldap.yml up -d
@@ -82,3 +15,4 @@ docker compose -f docker-compose.ldap.yml down -v
 docker compose -f docker-compose.privacyidea.yml down -v
 docker compose -f docker-compose.keycloak.yml down -v
 docker compose -f docker-compose.owncloud.yml down -v
+
