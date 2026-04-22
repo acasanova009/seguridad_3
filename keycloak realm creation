@@ -1,0 +1,40 @@
+🌐 REALM CREATION (Keycloak)
+🧩 Create Realm
+Realm name: nova
+Enabled: ON
+
+👉 This is your security domain (all users, clients, auth live here)
+
+👤 USER FEDERATION (LDAP)
+Provider: ldap
+Connection URL: ldap://openldap:389
+Bind DN: cn=admin,dc=nova,dc=org
+Users DN: dc=nova,dc=org
+Username attribute: uid
+UUID attribute: entryUUID
+Edit mode: READ_ONLY
+Search scope: Subtree
+Import users: ON
+
+👉 Result:
+
+LDAP users → available in Keycloak
+🔐 CLIENT (ownCloud)
+🧩 Basic
+Client ID: owncloud
+Client type: OpenID Connect
+🔑 Authentication
+Client authentication: ON
+Standard flow: ON
+Implicit flow: OFF
+Direct access grants: OFF
+Authorization: OFF
+🌍 Access Settings
+Root URL: http://localhost:8081
+Valid redirect URIs: http://localhost:8081/*
+Valid post logout redirect URIs: http://localhost:8081/*
+Web origins: *
+🔑 Credentials
+Client Secret: (generated after enabling client authentication)
+🔗 PROVIDER URL (used by ownCloud)
+http://keycloak:8080/realms/nova

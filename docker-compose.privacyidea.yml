@@ -1,0 +1,42 @@
+services:
+  privacyidea_db:
+    image: postgres:15-alpine
+    container_name: privacyidea_db
+    environment:
+      POSTGRES_DB: ${PI_DB_NAME}
+      POSTGRES_USER: ${PI_DB_USER}
+      POSTGRES_PASSWORD: ${PI_DB_PASSWORD}
+    volumes:
+      - privacyidea_db_data:/var/lib/postgresql/data
+    networks:
+      - net_iam
+
+  privacyidea_server:
+    image: kheeklab/privacyidea:dev
+    container_name: privacyidea_server
+    ports:
+      - "${PRIVACYIDEA_PORT}:8080"
+    environment:
+      PI_DB_VENDOR: postgresql
+      PI_DB_NAME: ${PI_DB_NAME}
+      PI_DB_HOST: privacyidea_db
+      PI_DB_PORT: 5432
+      PI_DB_USER: ${PI_DB_USER}
+      PI_DB_PASSWORD: ${PI_DB_PASSWORD}
+      PI_SECRET_KEY: ${PI_SECRET_KEY}
+      PI_PEPPER: ${PI_PEPPER}
+      PI_PAGE_TITLE: ${PI_PAGE_TITLE}
+      PI_ADMIN_USER: ${PI_ADMIN_USER}
+      PI_ADMIN_PASSWORD: ${PI_ADMIN_PASSWORD}
+    depends_on:
+      - privacyidea_db
+    networks:
+      - net_iam
+
+networks:
+  net_iam:
+    external: true
+    name: net-iam
+
+volumes:
+  privacyidea_db_data:
