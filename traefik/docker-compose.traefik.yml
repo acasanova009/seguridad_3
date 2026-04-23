@@ -1,0 +1,25 @@
+# docker-compose.yml
+services:
+  traefik:
+    image: traefik:v3.6
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.network=ocis-net"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      ocis-net:
+        aliases:
+          - ocis.nova.local
+          - keycloak.nova.local
+
+
+
+networks:
+  ocis-net:
+    external: true

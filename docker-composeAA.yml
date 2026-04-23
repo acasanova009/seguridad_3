@@ -19,21 +19,11 @@ services:
       # OCIS_LOG_LEVEL: error / info / ... / debug
       OCIS_LOG_LEVEL: info
 
-      
+     
+
       OCIS_EXCLUDE_RUN_SERVICES: idp
 
-      OCIS_OIDC_ISSUER: https://keycloak.nova.local/realms/myrealm
-      WEB_OIDC_CLIENT_ID: ocis
-      WEB_OIDC_SCOPE: "openid profile email"
-
-      PROXY_AUTOPROVISION_ACCOUNTS: "true"
-      PROXY_ROLE_ASSIGNMENT_DRIVER: oidc
-
-      # use a stable unique claim from Keycloak
-      PROXY_USER_OIDC_CLAIM: sub
-      PROXY_USER_CS3_CLAIM: username
-
-      PROXY_TLS: "false"
+      
     volumes:
       # mount the ocis config file inside the container
       - "./ocis.yaml:/etc/ocis/ocis.yaml"

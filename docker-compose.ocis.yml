@@ -1,0 +1,35 @@
+services:
+  ocis-init:
+    image: owncloud/ocis:latest
+    container_name: ocis-init
+    volumes:
+      - ocis-config:/etc/ocis
+    command: ["init"]
+    networks:
+      - net_iam
+    restart: "no"
+
+  ocis:
+    image: owncloud/ocis:latest
+    container_name: ocis
+    depends_on:
+      - ocis-init
+    ports:
+      - "9200:9200"
+    volumes:
+      - ocis-config:/etc/ocis
+      - ocis-data:/var/lib/ocis
+    environment:
+      IDM_CREATE_DEMO_USERS: "true"
+      OCIS_INSECURE: "true"
+    networks:
+      - net_iam
+    restart: always
+
+volumes:
+  ocis-config:
+  ocis-data:
+
+networks:
+  net_iam:
+    external: true

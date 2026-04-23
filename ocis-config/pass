@@ -1,0 +1,13 @@
+=========================================
+ generated OCIS Config
+=========================================
+ configpath : /etc/ocis/ocis.yaml
+ user       : admin
+ password   : 44hwS=Vo^Wy!9B@4x4JZ@e&3G4pUjknB
+
+
+
+ https://localhost:9200/.well-known/openid-configuration
+
+
+ https://keycloak.nova.local:8082/realms/myrealm
