@@ -1,83 +1,30 @@
 services:
-  owncloud_mariadb:
-    image: mariadb:10.11
-    container_name: owncloud_mariadb
-    restart: always
+  ocis:
+    image: owncloud/ocis:latest
+    networks:
+      - ocis-net
+    entrypoint: ["/bin/sh"]
+    command: ["-c", "ocis init || true; exec ocis server"]
+
     environment:
-      MYSQL_ROOT_PASSWORD: ${OWNCLOUD_MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${OWNCLOUD_DB_USERNAME}
-      MYSQL_PASSWORD: ${OWNCLOUD_DB_PASSWORD}
-      MYSQL_DATABASE: ${OWNCLOUD_DB_NAME}
-      MARIADB_AUTO_UPGRADE: "1"
-    command: ["--max-allowed-packet=128M", "--innodb-log-file-size=64M"]
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-u", "root", "--password=${OWNCLOUD_MYSQL_ROOT_PASSWORD}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    volumes:
-      - owncloud_mysql_data:/var/lib/mysql
-    networks:
-      - net_iam
+      OCIS_URL: https://${OCIS_DOMAIN}
+      OCIS_LOG_LEVEL: info
 
-  owncloud_redis:
-    image: redis:6
-    container_name: owncloud_redis
-    restart: always
-    command: ["--databases", "1"]
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    volumes:
-      - owncloud_redis_data:/data
-    networks:
-      - net_iam
+      # OIDC (Keycloak integration)
+      OCIS_OIDC_ISSUER: https://${KEYCLOAK_DOMAIN}/realms/oCIS
+      WEB_OIDC_CLIENT_ID: web
+      WEB_OIDC_SCOPE: "openid profile email acr"
 
-  owncloud_server:
-    image: owncloud/server:${OWNCLOUD_VERSION}
-    container_name: owncloud_server
-    restart: always
-    expose:
-      - "8080"
-    depends_on:
-      - owncloud_mariadb
-      - owncloud_redis
-    environment:
-      OWNCLOUD_DOMAIN: ${OWNCLOUD_DOMAIN}
-      OWNCLOUD_TRUSTED_DOMAINS: ${OWNCLOUD_TRUSTED_DOMAINS}
-      OWNCLOUD_OVERWRITE_CLI_URL: http://localhost:${OWNCLOUD_PORT}
-      OWNCLOUD_DB_TYPE: mysql
-      OWNCLOUD_DB_NAME: ${OWNCLOUD_DB_NAME}
-      OWNCLOUD_DB_USERNAME: ${OWNCLOUD_DB_USERNAME}
-      OWNCLOUD_DB_PASSWORD: ${OWNCLOUD_DB_PASSWORD}
-      OWNCLOUD_DB_HOST: owncloud_mariadb
-      OWNCLOUD_ADMIN_USERNAME: ${OWNCLOUD_ADMIN_USERNAME}
-      OWNCLOUD_ADMIN_PASSWORD: ${OWNCLOUD_ADMIN_PASSWORD}
-      OWNCLOUD_MYSQL_UTF8MB4: "true"
-      OWNCLOUD_REDIS_ENABLED: "true"
-      OWNCLOUD_REDIS_HOST: owncloud_redis
-    healthcheck:
-      test: ["CMD", "/usr/bin/healthcheck"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    volumes:
-      - owncloud_files:/mnt/data
-    networks:
-      - net_iam
+      PROXY_ROLE_ASSIGNMENT_DRIVER: oidc
+      PROXY_AUTOPROVISION_ACCOUNTS: "true"
 
-  owncloud_nginx:
-    image: nginx:alpine
-    container_name: owncloud_nginx
-    restart: always
-    depends_on:
-      - owncloud_server
-    ports:
-      - "${OWNCLOUD_PORT}:80"
+      PROXY_USER_OIDC_CLAIM: preferred_username
+      PROXY_USER_CS3_CLAIM: username
+
+      OCIS_EXCLUDE_RUN_SERVICES: idp
     volumes:
-      - ./nginx/owncloud.conf:/etc/nginx/conf.d/default.conf:ro
+      - ocis-config:/etc/ocis
+      - ocis-data:/var/lib/ocis
     networks:
       - net_iam
 
@@ -87,6 +34,5 @@ networks:
     name: net-iam
 
 volumes:
-  owncloud_mysql_data:
-  owncloud_redis_data:
-  owncloud_files:
+  ocis-config:
+  ocis-data:
