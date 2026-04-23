@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:v3.0
+    image: traefik:v3.6.14
     networks:
       ocis-net:
         aliases:
@@ -26,6 +26,9 @@ services:
       - "--accessLog=true"
       - "--accessLog.format=json"
       - "--accessLog.fields.headers.names.X-Request-Id=keep"
+
+      - "--providers.docker.network=ocis-net"
+      
     ports:
       - "80:80"
       - "443:443"
@@ -38,8 +41,11 @@ services:
       - "traefik.http.routers.traefik.entrypoints=https"
       - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_DOMAIN:-traefik.owncloud.test}`)"
       - "traefik.http.routers.traefik.middlewares=traefik-auth"
-      - "traefik.http.routers.traefik.tls.certresolver=http"
+      #- "traefik.http.routers.traefik.tls.certresolver=http"
       - "traefik.http.routers.traefik.service=api@internal"
+
+      
+      
     logging:
       driver: ${LOG_DRIVER:-local}
     restart: always
@@ -89,15 +95,17 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.ocis.entrypoints=https"
       - "traefik.http.routers.ocis.rule=Host(`${OCIS_DOMAIN:-ocis.owncloud.test}`)"
-      - "traefik.http.routers.ocis.tls.certresolver=http"
+     # - "traefik.http.routers.ocis.tls.certresolver=http"
       - "traefik.http.routers.ocis.service=ocis"
       - "traefik.http.services.ocis.loadbalancer.server.port=9200"
+
+      
     logging:
       driver: ${LOG_DRIVER:-local}
     restart: always
 
   postgres:
-    image: postgres:alpine
+    image: postgres:15-alpine
     networks:
       ocis-net:
     volumes:
@@ -139,7 +147,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.keycloak.entrypoints=https"
       - "traefik.http.routers.keycloak.rule=Host(`${KEYCLOAK_DOMAIN:-keycloak.owncloud.test}`)"
-      - "traefik.http.routers.keycloak.tls.certresolver=http"
+     # - "traefik.http.routers.keycloak.tls.certresolver=http"
       - "traefik.http.routers.keycloak.service=keycloak"
       - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
     depends_on:
