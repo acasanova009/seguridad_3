@@ -1,0 +1,13 @@
+Use this exact checklist now:
+
+curl -i http://localhost:8081/index.php/apps/openidconnect/config
+curl -i http://localhost:8081/.well-known/openid-configuration
+curl -iL http://localhost:8081/.well-known/openid-configuration
+
+How to read them:
+
+302 to /login = broken for discovery
+200 + application/json = good
+200 but HTML login page = still broken
+404 = missing rewrite/proxy rule
+500 = app/config problem inside ownCloud

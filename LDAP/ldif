@@ -2,10 +2,12 @@
 # OU
 # =========================
 dn: ou=users,dc=nova,dc=org
+objectClass: top
 objectClass: organizationalUnit
 ou: users
 
 dn: ou=groups,dc=nova,dc=org
+objectClass: top
 objectClass: organizationalUnit
 ou: groups
 
@@ -13,54 +15,97 @@ ou: groups
 # USERS - SEGURIDAD
 # =========================
 dn: uid=seg1,ou=users,dc=nova,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
 objectClass: inetOrgPerson
-cn: seg1
-sn: seg1
 uid: seg1
+cn: Carlos Ramírez
+givenName: Carlos
+sn: Ramírez
+mail: carlos.ramirez@nova.org
+telephoneNumber: 5550001001
+mobile: 5551001001
 userPassword: user
 
 dn: uid=seg2,ou=users,dc=nova,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
 objectClass: inetOrgPerson
-cn: seg2
-sn: seg2
 uid: seg2
+cn: Laura Méndez
+givenName: Laura
+sn: Méndez
+mail: laura.mendez@nova.org
+telephoneNumber: 5550001002
+mobile: 5551001002
 userPassword: user
 
 dn: uid=seg3,ou=users,dc=nova,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
 objectClass: inetOrgPerson
-cn: seg3
-sn: seg3
 uid: seg3
+cn: Diego Herrera
+givenName: Diego
+sn: Herrera
+mail: diego.herrera@nova.org
+telephoneNumber: 5550001003
+mobile: 5551001003
 userPassword: user
 
 # =========================
 # USERS - DESARROLLADOR
 # =========================
 dn: uid=des1,ou=users,dc=nova,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
 objectClass: inetOrgPerson
-cn: des1
-sn: des1
 uid: des1
+cn: Ana López
+givenName: Ana
+sn: López
+mail: ana.lopez@nova.org
+telephoneNumber: 5550002001
+mobile: 5551002001
 userPassword: user
 
 dn: uid=des2,ou=users,dc=nova,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
 objectClass: inetOrgPerson
-cn: des2
-sn: des2
 uid: des2
+cn: Jorge Castillo
+givenName: Jorge
+sn: Castillo
+mail: jorge.castillo@nova.org
+telephoneNumber: 5550002002
+mobile: 5551002002
 userPassword: user
 
 dn: uid=des3,ou=users,dc=nova,dc=org
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
 objectClass: inetOrgPerson
-cn: des3
-sn: des3
 uid: des3
+cn: Sofía Navarro
+givenName: Sofía
+sn: Navarro
+mail: sofia.navarro@nova.org
+telephoneNumber: 5550002003
+mobile: 5551002003
 userPassword: user
 
 # =========================
 # GROUP: SEGURIDAD
 # =========================
 dn: cn=seguridad,ou=groups,dc=nova,dc=org
+objectClass: top
 objectClass: groupOfNames
 cn: seguridad
 member: uid=seg1,ou=users,dc=nova,dc=org
@@ -71,6 +116,7 @@ member: uid=seg3,ou=users,dc=nova,dc=org
 # GROUP: DESARROLLADOR
 # =========================
 dn: cn=desarrollador,ou=groups,dc=nova,dc=org
+objectClass: top
 objectClass: groupOfNames
 cn: desarrollador
 member: uid=des1,ou=users,dc=nova,dc=org

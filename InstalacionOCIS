@@ -1,0 +1,171 @@
+Here’s a clean, practical manual based on your document. I simplified it into something you can actually follow step-by-step without getting lost.
+
+🧠 SUMMARY (Read this first)
+
+You are installing ownCloud Infinite Scale (OCIS) using Docker Compose on a server.
+
+Big picture flow:
+
+Prepare server (Ubuntu + Docker)
+Configure domain + DNS
+Download deployment files
+Edit .env configuration
+Start containers
+Fix errors (certificates, DNS, ports)
+Access via browser
+
+👉 Goal: have a working cloud system at
+https://your-domain.com
+
+✅ CHECKLIST (Before you start)
+🔧 Server & System
+ Ubuntu 22.04 or 24.04 installed
+ SSH access working
+ sudo permissions
+ At least:
+ 4–6 GB RAM
+ ~3 GB disk space
+🐳 Software
+ Docker installed
+ Docker Compose installed
+ unzip installed
+🌐 Network
+ Public IP (or port forwarding)
+ Ports open:
+ 22 (SSH)
+ 80 (HTTP)
+ 443 (HTTPS)
+ Domain name purchased
+🌍 DNS
+ Domain points to your server IP
+ Subdomains ready:
+ ocis.yourdomain.com
+ (optional) collabora.yourdomain.com
+ (optional) onlyoffice.yourdomain.com
+📧 Email (optional but recommended)
+ SMTP_HOST
+ SMTP_PORT
+ SMTP_SENDER (required or it won’t start)
+🚀 STEP-BY-STEP INSTALLATION
+1. Update server
+sudo apt-get update && sudo apt-get upgrade -y
+2. Install required tools
+sudo apt install unzip -y
+3. Download OCIS example (on your local machine)
+
+Download from:
+https://download-directory.github.io?url=https://github.com/owncloud/ocis/tree/stable-8.0/deployments/examples/ocis_full
+
+4. Upload to server
+scp ~/Downloads/your-file.zip user@your-server:/opt
+5. Extract on server
+mkdir -p /opt/compose/ocis/ocis_full
+
+unzip -d /opt/compose/ocis/ocis_full \
+/opt/your-file.zip
+6. Enter directory
+cd /opt/compose/ocis/ocis_full
+7. Edit configuration (.env)
+nano .env
+🔑 IMPORTANT SETTINGS
+Security
+# Comment this line
+# INSECURE=true
+Email for certificates
+TRAEFIK_ACME_MAIL=you@email.com
+Use staging certificates first
+TRAEFIK_ACME_CASERVER=https://acme-staging-v02.api.letsencrypt.org/directory
+Domain
+OCIS_DOMAIN=ocis.yourdomain.com
+Optional apps
+COLLABORA_DOMAIN=collabora.yourdomain.com
+ONLYOFFICE_DOMAIN=onlyoffice.yourdomain.com
+Email (minimum required)
+SMTP_SENDER=noreply@yourdomain.com
+8. Validate config (optional but smart)
+docker compose config
+9. Start system
+docker compose up -d
+🔍 VERIFY INSTALLATION
+Check containers
+docker compose ps
+Check logs
+docker logs -f <container_id>
+
+👉 First check:
+
+traefik logs (certificates)
+then ocis logs
+⚠️ COMMON ERRORS & FIXES
+❌ Certificate error
+
+Cause: invalid email
+
+Contact emails forbidden
+
+✅ Fix:
+
+TRAEFIK_ACME_MAIL=real@email.com
+❌ Domain not working
+NXDOMAIN
+
+✅ Fix:
+
+Check DNS
+Domain must point to your IP
+❌ Certificate generation fails
+acme challenge error
+
+✅ Fix:
+
+Open ports 80 and 443
+🔄 After fixing errors (IMPORTANT)
+docker compose down
+docker volume rm ocis_full_certs
+docker compose up -d
+🔐 Switch to real certificates (FINAL STEP)
+Stop:
+docker compose down
+Edit .env:
+# Remove staging server
+TRAEFIK_ACME_CASERVER=
+Delete cert volume:
+docker volume rm ocis_full_certs
+Restart:
+docker compose up -d
+🌐 ACCESS YOUR SERVER
+
+Open browser:
+
+https://ocis.yourdomain.com
+Default login:
+User: admin
+Password: admin
+🛠️ USEFUL COMMANDS
+Stop system
+docker compose down
+Restart
+docker compose up -d
+View containers
+docker ps -a
+View logs
+docker logs -f <container_id>
+🧩 OPTIONAL (ADVANCED)
+Move data outside Docker (recommended for production)
+docker cp <container_id>:/var/lib/ocis/. /mnt/data
+docker cp <container_id>:/etc/ocis/. /mnt/config
+
+chown -R 1000:1000 /mnt/data /mnt/config
+
+Then update .env:
+
+OCIS_DATA_DIR=/mnt/data
+OCIS_CONFIG_DIR=/mnt/config
+🎯 FINAL RESULT
+
+You will have:
+
+A self-hosted cloud (like Google Drive)
+Web office integration
+Secure HTTPS (Let’s Encrypt)
+User management (built-in IDM + IDP)

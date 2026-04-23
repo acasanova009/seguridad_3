@@ -11,7 +11,7 @@ docker exec --user www-data owncloud_server occ config:app:set openidconnect ope
 --value='{"provider-url":"http://0.0.0.0:8082/realms/myrealm",
           "client-id":"owncloud",
           "client-secret":"NhVioVp0ZDCUS1YRnE2aFIbt0hPnYXvu",
-          "loginButtonName":"LoginA"}'
+          "loginButtonName":"LoginB"}'
 
 Finalmente
 docker exec --user www-data owncloud_server occ config:app:get openidconnect openid-connect

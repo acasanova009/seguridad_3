@@ -4,15 +4,12 @@ docker compose -f docker-compose.ldap.yml up -d
 docker compose -f docker-compose.privacyidea.yml up -d
 docker compose -f docker-compose.keycloak.yml up -d
 docker compose -f docker-compose.owncloud.yml up -d
+docker compose -f docker-compose.owncloud-original.yml up -d
 
 
 docker compose -f docker-compose.ldap.yml down
 docker compose -f docker-compose.privacyidea.yml down
 docker compose -f docker-compose.keycloak.yml down
 docker compose -f docker-compose.owncloud.yml down
-
-docker compose -f docker-compose.ldap.yml down -v
-docker compose -f docker-compose.privacyidea.yml down -v
-docker compose -f docker-compose.keycloak.yml down -v
-docker compose -f docker-compose.owncloud.yml down -v
+docker compose -f docker-compose.owncloud-original.yml down
 

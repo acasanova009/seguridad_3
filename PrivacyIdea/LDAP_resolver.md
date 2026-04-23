@@ -3,7 +3,7 @@
 ## Connection
 
 - **Resolver name:** LDAPResolver1  
-- **Server URI:** ldap://ldap_server  
+- **Server URI:** ldap://ldap_server:389  
 - **STARTTLS:** OFF  
 - **TLS Version:** default  
 - **Verify TLS:** OFF  

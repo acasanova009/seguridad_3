@@ -1,1 +1,60 @@
-http://0.0.0.0:8082/realms/myrealm/account
+
+Resumen FINAL actualizado de la federation
+Conexión
+Vendor: Other
+Connection URL: ldap://ldap:389
+
+Bind DN: cn=admin,dc=nova,dc=org
+Bind Credential: admin
+Seguridad de conexión
+Enable StartTLS: OFF
+Use Truststore SPI: Always
+Connection pooling: ON
+Users
+Users DN: ou=users,dc=nova,dc=org
+Relative user creation DN: (vacío)
+
+Username LDAP attribute: uid
+RDN LDAP attribute: uid
+UUID LDAP attribute: entryUUID
+
+User object classes: inetOrgPerson
+User LDAP filter: (&(uid=*)(objectClass=inetOrgPerson))
+
+Search scope: Subtree
+Read timeout: 5000
+Pagination: ON
+Referral: IGNORE
+Synchronization
+Import users: ON
+Sync Registrations: OFF
+
+Batch size: 100
+
+Periodic full sync: OFF
+Periodic changed users sync: OFF
+
+Remove invalid users: ON
+Cache
+Cache policy: DEFAULT
+Advanced
+Enable LDAPv3 password modify extended operation: OFF
+Validate password policy: OFF
+Enable LDAP password policy: OFF
+Trust Email: ON (testing) / OFF (production)
+Connection trace: OFF
+Edit mode
+Edit mode: READ_ONLY
+Group Mapper
+Name: groups
+Mapper Type: group-ldap-mapper
+
+Groups DN: ou=groups,dc=nova,dc=org
+Group Name LDAP Attribute: cn
+Group Object Classes: groupOfNames
+
+Membership LDAP Attribute: member
+Membership Attribute Type: DN
+
+User Roles Retrieve Strategy: LOAD_GROUPS_BY_MEMBER_ATTRIBUTE
+Mode: LDAP_ONLY
