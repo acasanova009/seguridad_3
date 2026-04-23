@@ -11,9 +11,9 @@ services:
     networks:
       - net_iam
 
-  keycloakserver:
+  keycloack:
     image: quay.io/keycloak/keycloak:26.6.1
-    container_name: keycloakserver
+    container_name: keycloack
     command: start-dev
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME}
