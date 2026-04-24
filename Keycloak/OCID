@@ -10,22 +10,38 @@ http://localhost:9090/realms/myrealm
 Interno
 http://keycloak:8080/realms/myrealm
 
+docker compose -f docker-compose.owncloud.yml down
+
 Antes de Correr verificar OpenConnectID en terminal:
 docker exec --user www-data owncloud occ app:enable openidconnect
 docker exec --user www-data owncloud occ config:app:set openidconnect creation-enabled --value="yes"
+docker exec --user www-data owncloud occ log:manage --level 0
 
+docker logs -f owncloud
+docker exec -it owncloud grep "openidconnect" /mnt/data/files/owncloud.log
+docker exec --user www-data owncloud occ config:app:set openidconnect login-claim --value="preferred_username"
+docker exec --user www-data owncloud occ config:app:set openidconnect creation-enabled --value="yes"
 
 docker exec --user www-data owncloud occ config:app:set openidconnect openid-connect \
 --value='{
   "provider-url":"http://keycloak:8080/realms/myrealm/",
-  "client-id":"own", 
-  "insecure":"true",
-  "mode":"userid",
+  "client-id":"own",
   "client-secret":"Pb34ngBRnMysPSYDU8u7M6gL4bF6RCbR",
-  "loginButtonName":"Keycloak Login"
- }'
+  "loginButtonName":"Keycloak LoginA",
+  "insecure":true,
+  "allow_unverified_delivery":true,
+  "creation-enabled":true,
+  "pkce_code_challenge_method":"S256"
+}'
 
+# 1. Allow ownCloud to create the user automatically if they don't exist
+docker exec --user www-data owncloud occ config:app:set openidconnect creation-enabled --value="yes"
 
+# 2. Tell ownCloud to use the 'preferred_username' from Keycloak as the ownCloud username
+docker exec --user www-data owncloud occ config:app:set openidconnect login-claim --value="preferred_username"
+
+# 3. Search for the user by their email if the username mapping is tricky
+docker exec --user www-data owncloud occ config:app:set openidconnect search-claim --value="email"
 
 docker exec --user www-data owncloud occ config:app:set openidconnect openid-connect \
 --value='{
