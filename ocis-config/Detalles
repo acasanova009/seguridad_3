@@ -10,7 +10,8 @@
  https://localhost:9200/
 
 
- https://keycloak.nova.local:8082/realms/myrealm
+ https://keycloak:8080/realms/myrealm
+ 
 
 To begin instalation
 

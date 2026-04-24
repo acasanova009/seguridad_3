@@ -3,7 +3,7 @@ docker network create net-iam
 docker compose -f docker-compose.ldap.yml up -d
 docker compose -f docker-compose.privacyidea.yml up
 docker compose -f docker-compose.keycloak.yml up
-docker compose -f docker-compose.owncloud.yml up
+docker compose -f docker-compose.ocis.yml up
 docker compose -f docker-compose.owncloud.yml up
 
 docker compose -f docker-compose.grafana.yml up
@@ -12,7 +12,7 @@ docker compose -f docker-compose.grafana.yml up
 docker compose -f docker-compose.ldap.yml down
 docker compose -f docker-compose.privacyidea.yml down
 docker compose -f docker-compose.keycloak.yml down
-docker compose -f docker-compose.owncloud.yml down
+docker compose -f docker-compose.ocis.yml down
 docker compose -f docker-compose.owncloud.yml down
 
 docker compose -f docker-compose.grafana.yml down

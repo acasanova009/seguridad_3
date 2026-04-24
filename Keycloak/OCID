@@ -3,7 +3,7 @@ docker exec -it owncloud bash
 apt update && apt install nano -y
 nano /var/www/owncloud/config/config.php
 
-curl -i http://localhost:9090/realms/myrealm/.well-known/openid-configuration
+curl -i http://keycloak:8080/realms/myrealm/.well-known/openid-configuration
 
 Externo
 http://localhost:9090/realms/myrealm
@@ -12,6 +12,18 @@ http://keycloak:8080/realms/myrealm
 
 Antes de Correr verificar OpenConnectID en terminal:
 docker exec --user www-data owncloud occ app:enable openidconnect
+docker exec --user www-data owncloud occ config:app:set openidconnect creation-enabled --value="yes"
+
+
+docker exec --user www-data owncloud occ config:app:set openidconnect openid-connect \
+--value='{
+  "provider-url":"http://keycloak:8080/realms/myrealm/",
+  "client-id":"own", 
+  "insecure":"true",
+  "mode":"userid",
+  "client-secret":"Pb34ngBRnMysPSYDU8u7M6gL4bF6RCbR",
+  "loginButtonName":"Keycloak Login"
+ }'
 
 
 
