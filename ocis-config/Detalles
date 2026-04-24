@@ -1,0 +1,22 @@
+=========================================
+ generated OCIS Config
+=========================================
+ configpath : /etc/ocis/ocis.yaml
+ user       : admin
+ password   : xVzdmpGg8zF.w#@*lj-T+fvBUu-qg-Dv
+
+ https://localhost:9200/.well-known/openid-configuration
+
+ https://localhost:9200/
+
+
+ https://keycloak.nova.local:8082/realms/myrealm
+
+To begin instalation
+
+ docker run --rm -it     --mount type=bind,source=./ocis-config,target=/etc/ocis     --mount type=bind,source=./ocis-data,target=/var/lib/ocis     owncloud/ocis init --insecure yes
+
+
+or
+
+docker run --rm -it -v ./ocis-config:/etc/ocis/ owncloud/ocis:latest init --force-overwrite

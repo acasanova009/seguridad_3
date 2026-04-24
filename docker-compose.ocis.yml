@@ -1,35 +1,33 @@
 services:
-  ocis-init:
-    image: owncloud/ocis:latest
-    container_name: ocis-init
-    volumes:
-      - ocis-config:/etc/ocis
-    command: ["init"]
-    networks:
-      - net_iam
-    restart: "no"
-
   ocis:
-    image: owncloud/ocis:latest
-    container_name: ocis
-    depends_on:
-      - ocis-init
+    image: owncloud/ocis:latest@sha256:5ce3d5f9da017d6760934448eb207fbaab9ceaf0171b4122e791e292f7c86c97
+    environment:
+      OCIS_INSECURE: "true"
+      OCIS_URL: "https://localhost:9200"
+      OCIS_LOG_LEVEL: info
+
+      PROXY_AUTOPROVISION_ACCOUNTS: "true"
+      PROXY_ROLE_ASSIGNMENT_DRIVER: "oidc"
+      OCIS_OIDC_ISSUER: http://localhost:9090/realms/myrealm/
+      PROXY_OIDC_REWRITE_WELLKNOWN: "true"
+      WEB_OIDC_CLIENT_ID: grafana
+      WEB_OIDC_CLIENT_SECRET: 56xcz0gZ8JRmflhZ30vJ6i9vDAkH3sxv
+
+    volumes:
+      - "./ocis-config/ocis.yaml:/etc/ocis/ocis.yaml"
+      - "ocis-data:/var/lib/ocis"
     ports:
       - "9200:9200"
-    volumes:
-      - ocis-config:/etc/ocis
-      - ocis-data:/var/lib/ocis
-    environment:
-      IDM_CREATE_DEMO_USERS: "true"
-      OCIS_INSECURE: "true"
     networks:
       - net_iam
     restart: always
+    logging:
+      driver: local
 
 volumes:
-  ocis-config:
   ocis-data:
 
 networks:
   net_iam:
     external: true
+    name: net-iam

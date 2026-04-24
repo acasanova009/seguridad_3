@@ -1,0 +1,127 @@
+token_manager:
+  jwt_secret: So+PFjiTHBwqn=oo5rjGdu4ceDx3%x6W
+machine_auth_api_key: Y^V573JEZLAZBe*TTfrCl*Z%sqRtiYlQ
+system_user_api_key: cTM5$pae^mh^4rG3DqN5D37vu^Im5BJB
+transfer_secret: KE!P2Mkn+wiQn1bkcdjoja.IKDKpu2bk
+system_user_id: 3f15ac5a-d462-42d2-af06-5c7632468150
+admin_user_id: 22cb5cf2-ac8c-4df0-87fa-0161488b9525
+graph:
+  application:
+    id: 27d2e15d-cc7b-49d4-a11b-f6c5bc498c3d
+  events:
+    tls_insecure: true
+  spaces:
+    insecure: true
+  identity:
+    ldap:
+      bind_password: 1$fxHaE75zLV9rbvXSk&p3WvJEfKm@xd
+  service_account:
+    service_account_id: 86e84f9d-10f9-4d33-ac25-9dd97ec4a171
+    service_account_secret: X2ePS&$tsd3Qass*D6&w2x7PAZl!s1.s
+idp:
+  ldap:
+    bind_password: 8zGvYBLBT-CkZQBMoX3%vJWod5O9.mvm
+idm:
+  service_user_passwords:
+    admin_password: xVzdmpGg8zF.w#@*lj-T+fvBUu-qg-Dv
+    idm_password: 1$fxHaE75zLV9rbvXSk&p3WvJEfKm@xd
+    reva_password: V@y7wE7Zo17SEv&OyYtA^fLSfHW!6Xuw
+    idp_password: 8zGvYBLBT-CkZQBMoX3%vJWod5O9.mvm
+collaboration:
+  wopi:
+    secret: vNqWi3V$gP88py%*HMc8kDkzuVTSi68g
+  app:
+    insecure: true
+proxy:
+  oidc:
+    insecure: true
+  insecure_backends: true
+  service_account:
+    service_account_id: 86e84f9d-10f9-4d33-ac25-9dd97ec4a171
+    service_account_secret: X2ePS&$tsd3Qass*D6&w2x7PAZl!s1.s
+frontend:
+  app_handler:
+    insecure: true
+  archiver:
+    insecure: true
+  service_account:
+    service_account_id: 86e84f9d-10f9-4d33-ac25-9dd97ec4a171
+    service_account_secret: X2ePS&$tsd3Qass*D6&w2x7PAZl!s1.s
+auth_basic:
+  auth_providers:
+    ldap:
+      bind_password: V@y7wE7Zo17SEv&OyYtA^fLSfHW!6Xuw
+auth_bearer:
+  auth_providers:
+    oidc:
+      insecure: true
+users:
+  drivers:
+    ldap:
+      bind_password: V@y7wE7Zo17SEv&OyYtA^fLSfHW!6Xuw
+groups:
+  drivers:
+    ldap:
+      bind_password: V@y7wE7Zo17SEv&OyYtA^fLSfHW!6Xuw
+ocdav:
+  insecure: true
+ocm:
+  service_account:
+    service_account_id: 86e84f9d-10f9-4d33-ac25-9dd97ec4a171
+    service_account_secret: X2ePS&$tsd3Qass*D6&w2x7PAZl!s1.s
+thumbnails:
+  thumbnail:
+    transfer_secret: AXoCqgQaFbDQ1#%STX!C$!27+ECjkI--
+    webdav_allow_insecure: true
+    cs3_allow_insecure: true
+search:
+  events:
+    tls_insecure: true
+  service_account:
+    service_account_id: 86e84f9d-10f9-4d33-ac25-9dd97ec4a171
+    service_account_secret: X2ePS&$tsd3Qass*D6&w2x7PAZl!s1.s
+audit:
+  events:
+    tls_insecure: true
+settings:
+  service_account_ids:
+  - 86e84f9d-10f9-4d33-ac25-9dd97ec4a171
+sharing:
+  events:
+    tls_insecure: true
+storage_users:
+  events:
+    tls_insecure: true
+  mount_id: 4088f0cd-69c6-4560-ada0-6bf2b1631031
+  service_account:
+    service_account_id: 86e84f9d-10f9-4d33-ac25-9dd97ec4a171
+    service_account_secret: X2ePS&$tsd3Qass*D6&w2x7PAZl!s1.s
+notifications:
+  notifications:
+    events:
+      tls_insecure: true
+  service_account:
+    service_account_id: 86e84f9d-10f9-4d33-ac25-9dd97ec4a171
+    service_account_secret: X2ePS&$tsd3Qass*D6&w2x7PAZl!s1.s
+nats:
+  nats:
+    tls_skip_verify_client_cert: true
+gateway:
+  storage_registry:
+    storage_users_mount_id: 4088f0cd-69c6-4560-ada0-6bf2b1631031
+userlog:
+  service_account:
+    service_account_id: 86e84f9d-10f9-4d33-ac25-9dd97ec4a171
+    service_account_secret: X2ePS&$tsd3Qass*D6&w2x7PAZl!s1.s
+auth_service:
+  service_account:
+    service_account_id: 86e84f9d-10f9-4d33-ac25-9dd97ec4a171
+    service_account_secret: X2ePS&$tsd3Qass*D6&w2x7PAZl!s1.s
+clientlog:
+  service_account:
+    service_account_id: 86e84f9d-10f9-4d33-ac25-9dd97ec4a171
+    service_account_secret: X2ePS&$tsd3Qass*D6&w2x7PAZl!s1.s
+activitylog:
+  service_account:
+    service_account_id: 86e84f9d-10f9-4d33-ac25-9dd97ec4a171
+    service_account_secret: X2ePS&$tsd3Qass*D6&w2x7PAZl!s1.s
