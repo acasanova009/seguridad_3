@@ -1,0 +1,28 @@
+config
+ config:app:delete      Delete an app config value
+ config:app:get         Get an app config value
+ config:app:set         Set an app config value
+ config:import          Import a list of configuration settings
+ config:list            List all configuration settings
+ config:system:delete   Delete a system config value
+ config:system:get      Get a system config value
+ config:system:set      Set a system config value
+
+docker exec --user www-data owncloud occ config:system:set http.cookie.samesite --value="None"
+
+
+
+
+ Configuration settings in config.php on ownCloud Server
+
+'http.cookie.samesite' => 'None',
+
+
+
+
+When registering ownCloud as an OpenID Client, use the following redirect URL:
+
+https://cloud.example.com/index.php/apps/openidconnect/redirect
+If OpenID Connect Front-Channel Logout 1.0 is supported, enter the following as the logout URL within the client registration of the OpenID Provider:
+
+https://cloud.example.com/index.php/apps/openidconnect/logout

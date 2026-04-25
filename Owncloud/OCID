@@ -87,21 +87,5 @@ docker exec --user www-data owncloud occ config:app:get openidconnect openid-con
 Para system: 
 docker exec --user www-data owncloud occ config:list system
 
-Para revisar toda la configuración
-docker exec owncloud cat /var/www/owncloud/config/config.php
 
 
-http://0.0.0.0:8082/realms/myrealm/.well-known/openid-configuration
-
-docker exec -it owncloud curl -I http://172.23.0.6:8080/realms/myrealm/.well-known/openid-configuration
-
-
-
-
-docker exec --user www-data owncloud occ config:app:set openidconnect openid-connect \
---value='{
-  "provider-url":"http://keycloak:8080/realms/myrealm",
-  "client-id":"owncloud",
-  "client-secret":"iHvzle7NGNXI3h1YVLWM3dS2WitSyozS",
-  "loginButtonName":"LoginBA"
-}'
