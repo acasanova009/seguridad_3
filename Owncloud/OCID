@@ -12,50 +12,70 @@ http://keycloak:8080/realms/myrealm
 
 docker compose -f docker-compose.owncloud.yml down
 
+
+
 Antes de Correr verificar OpenConnectID en terminal:
+
+*****************http://owncloud:8081/index.php/apps/openidconnect/redirect
+
+docker exec --user www-data owncloud occ config:app:set openidconnect
+
 docker exec --user www-data owncloud occ app:enable openidconnect
-docker exec --user www-data owncloud occ config:app:set openidconnect creation-enabled --value="yes"
-docker exec --user www-data owncloud occ log:manage --level 0
+docker exec --user www-data owncloud occ config:system:set http.cookie.samesite --value="None"
+
 
 docker logs -f owncloud
 docker exec -it owncloud grep "openidconnect" /mnt/data/files/owncloud.log
-docker exec --user www-data owncloud occ config:app:set openidconnect login-claim --value="preferred_username"
-docker exec --user www-data owncloud occ config:app:set openidconnect creation-enabled --value="yes"
+
+
 
 docker exec --user www-data owncloud occ config:app:set openidconnect openid-connect \
 --value='{
-  "provider-url":"http://keycloak:8080/realms/myrealm/",
-  "client-id":"own",
-  "client-secret":"Pb34ngBRnMysPSYDU8u7M6gL4bF6RCbR",
-  "loginButtonName":"Keycloak LoginA",
-  "insecure":true,
-  "allow_unverified_delivery":true,
-  "creation-enabled":true,
-  "pkce_code_challenge_method":"S256"
+  "provider-url": "http://keycloak:8080/realms/myrealm/",
+  "client-id": "owncloud",
+  "client-secret": "Sl3lfbyQwo2LSOOpzUzdqTVcb1MDozAk",
+  "loginButtonName": "Keycloak LoginA",
+  "autoRedirectOnLoginPage": false,
+  "insecure": true,
+  "mode": "email",
+  "search-attribute": "email",
+  "scope": "openid offline_access email profile",
+  "auto-provision": {
+    "enabled": true,
+    "email-claim": "email",
+    "display-name-claim": "given_name",
+    "groups": ["seguridad"],
+    "update": {
+      "enabled": true
+    }
+  }
 }'
 
-# 1. Allow ownCloud to create the user automatically if they don't exist
-docker exec --user www-data owncloud occ config:app:set openidconnect creation-enabled --value="yes"
+  "allow_unverified_delivery":true
+  "creation-enabled":true
+  "pkce_code_challenge_method":"S256"
 
-# 2. Tell ownCloud to use the 'preferred_username' from Keycloak as the ownCloud username
-docker exec --user www-data owncloud occ config:app:set openidconnect login-claim --value="preferred_username"
-
-# 3. Search for the user by their email if the username mapping is tricky
-docker exec --user www-data owncloud occ config:app:set openidconnect search-claim --value="email"
 
 docker exec --user www-data owncloud occ config:app:set openidconnect openid-connect \
 --value='{
   "provider-url":"http://localhost:9090/realms/myrealm",
-  "client-id":"grafana",
-  "client-secret":"56xcz0gZ8JRmflhZ30vJ6i9vDAkH3sxv",
+  "client-id":"owncloud",
+  "client-secret":"Sl3lfbyQwo2LSOOpzUzdqTVcb1MDozAk",
   "loginButtonName":"Keycloak Login",
   "post_logout_redirect_uri":"http://localhost:9090/realms/myrealm",
+
+  "auto-provision": {
+    "enabled": "true",
+    "email-claim": "email",
+    "display-name-claim": "name"
+    
+  }
+
   "provider-params": {
     "authorization_endpoint": "http://localhost:9090/realms/myrealm/protocol/openid-connect/auth",
     "token_endpoint": "http://keycloak:8080/realms/myrealm/protocol/openid-connect/token",
     "userinfo_endpoint": "http://keycloak:8080/realms/myrealm/protocol/openid-connect/userinfo",
-
-    "introspection_endpoint": "http://keycloak:8080/realms/myrealm/protocol/openid-connect/token/introspect",
+    "introspection_endpoint": "http://keycloak:8080/realms/myrealm/protocol/openid-connect/token/introspect"
     
   }
 }'

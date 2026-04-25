@@ -52,7 +52,7 @@ services:
 networks:
   net_iam:
     external: true
-    name: net-iam
+    name: net_iam
 
 volumes:
   ldap_data:

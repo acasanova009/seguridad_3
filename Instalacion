@@ -1,4 +1,4 @@
-docker network create net-iam
+docker network create net_iam
 
 docker compose -f docker-compose.ldap.yml up -d
 docker compose -f docker-compose.privacyidea.yml up

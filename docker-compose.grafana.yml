@@ -21,7 +21,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - net-iam
+      - net_iam
 
   # Keycloak Authentication Server
   # - Provides OAuth2/OpenID Connect functionality
@@ -50,7 +50,7 @@ services:
       postgres:
         condition: service_healthy
     networks:
-      - net-iam
+      - net_iam
 
   grafana:
     image: grafana/grafana:latest
@@ -60,7 +60,7 @@ services:
     volumes:
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
     networks:
-      - net-iam
+      - net_iam
     depends_on:
       - keycloak
 
@@ -69,6 +69,6 @@ volumes:
     name: keycloak_postgres_data
 
 networks:
-  net-iam:
+  net_iam:
     external: true
-    name: net-iam
+    name: net_iam
