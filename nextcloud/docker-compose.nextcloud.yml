@@ -14,9 +14,9 @@ services:
     networks:
       - net_iam
 
-  nextcloud:
+  mrcloud:
     image: nextcloud
-    container_name: nextcloud
+    container_name: mrcloud
     restart: always
     depends_on:
       - db
@@ -29,7 +29,7 @@ services:
       MYSQL_PASSWORD: nextcloud
       NEXTCLOUD_ADMIN_USER: admin
       NEXTCLOUD_ADMIN_PASSWORD: admin
-      NEXTCLOUD_TRUSTED_DOMAINS: nextcloud localhost 127.0.0.1 0.0.0.0
+      NEXTCLOUD_TRUSTED_DOMAINS: nextcloud localhost 127.0.0.1 0.0.0.0 mrcloud
     links:
       - db
     volumes:
