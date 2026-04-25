@@ -1,0 +1,7 @@
+Terminal:
+docker  exec --user www-data nextcloud php occ config:list system
+
+Modicamos el puerto 80 para 9090
+docker exec --user www-data nextcloud php occ config:system:set overwritehost --value="nextcloud:9090"
+docker exec --user www-data nextcloud php occ config:system:set overwriteprotocol --value="http"
+docker exec --user www-data nextcloud php occ config:system:set overwrite.cli.url --value="http://nextcloud:9090"
