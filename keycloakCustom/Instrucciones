@@ -1,0 +1,20 @@
+docker tag keycloak-idea:1.0.1 keycloak-idea:latest
+
+-------------------------------------------------------------------DEV
+
+
+
+FROM quay.io/keycloak/keycloak:26.1.2
+
+COPY --chown=keycloak:keycloak ideakey.jar /opt/keycloak/providers/
+-------------------------------------------------------------------START
+
+FROM quay.io/keycloak/keycloak:26.1.2
+
+COPY --chown=keycloak:keycloak ideakey.jar /opt/keycloak/providers/
+
+RUN /opt/keycloak/bin/kc.sh build
+
+
+-------------------------------------------------------------------VERIFY
+docker logs <keycloak-container> | grep -i ideakey

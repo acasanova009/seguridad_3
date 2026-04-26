@@ -8,7 +8,8 @@ services:
   # - Data persisted through postgres_data volume
   postgres:
     image: postgres:15
-    container_name: keycloak-postgres
+    container_name: postgres
+    restart: always
     extra_hosts:
       - "localhost:host-gateway"
     environment:
@@ -32,7 +33,8 @@ services:
   # - Connected to PostgreSQL via keycloak-network
   # - Configured for development mode with HTTP enabled
   keycloak:
-    image: quay.io/keycloak/keycloak:26.1.2
+    restart: always
+    image: keycloak-idea:latest
     container_name: keycloak
     
     environment:
@@ -56,6 +58,7 @@ services:
       - net_iam
 
   grafana:
+    restart: always
     image: grafana/grafana:latest
     container_name: grafana
     ports:

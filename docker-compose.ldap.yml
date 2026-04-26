@@ -2,6 +2,7 @@ services:
   ldap-server:
     image: osixia/openldap:1.5.0
     container_name: ldap-server
+    restart: always
     domainname: "nova.org"
     hostname: "ldap"
     
@@ -39,6 +40,7 @@ services:
   ldap-admin:
     image: osixia/phpldapadmin:latest
     container_name: ldap-admin
+    restart: always
     environment:
       PHPLDAPADMIN_LDAP_HOSTS: ldap-server
       PHPLDAPADMIN_HTTPS: ${PHPLDAPADMIN_HTTPS}
