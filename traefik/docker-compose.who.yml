@@ -9,7 +9,7 @@
     volumes:
       - keycloak_db_data:/var/lib/postgresql/data
     networks:
-      - net_iam
+      - net-iam
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.6.1
@@ -37,7 +37,7 @@
     depends_on:
       - keycloak_db
     networks:
-      - net_iam
+      - net-iam
 
 
 
@@ -46,7 +46,7 @@
     container_name: whoami
     restart: unless-stopped
     networks:
-      - net_iam
+      - net-iam
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"

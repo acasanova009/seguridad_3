@@ -18,7 +18,7 @@ services:
     volumes:
       - owncloud_mysql_data:/var/lib/mysql
     networks:
-      - net_iam
+      - net-iam
 
   owncloud_redis:
     image: redis:6
@@ -33,7 +33,7 @@ services:
     volumes:
       - owncloud_redis_data:/data
     networks:
-      - net_iam
+      - net-iam
 
   owncloud:
     image: owncloud/server:10.15
@@ -66,12 +66,12 @@ services:
       - owncloud_files:/mnt/data
       
     networks:
-      - net_iam
+      - net-iam
 
 networks:
-  net_iam:
+  net-iam:
     external: true
-    name: net_iam
+    name: net-iam
 
 volumes:
   owncloud_mysql_data:

@@ -1,4 +1,4 @@
-docker network create net_iam
+docker network create net-iam
 docker network create test-net
 
 docker compose -f docker-compose.ldap.yml

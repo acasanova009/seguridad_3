@@ -12,7 +12,7 @@ services:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
     networks:
-      - net_iam
+      - net-iam
 
   mrcloud:
     image: nextcloud
@@ -40,13 +40,13 @@ services:
       
 
     networks:
-      - net_iam
+      - net-iam
 
 volumes:
   nextcloud:
   db:
 
 networks:
-  net_iam:
+  net-iam:
     external: true
-    name: net_iam
+    name: net-iam

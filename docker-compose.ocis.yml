@@ -19,7 +19,7 @@ services:
     ports:
       - "9200:9200"
     networks:
-      - net_iam
+      - net-iam
     restart: always
     logging:
       driver: local
@@ -28,6 +28,6 @@ volumes:
   ocis-data:
 
 networks:
-  net_iam:
+  net-iam:
     external: true
-    name: net_iam
+    name: net-iam

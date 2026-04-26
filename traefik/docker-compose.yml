@@ -6,7 +6,7 @@ services:
     security_opt:
       - no-new-privileges:true
     networks:
-      - net_iam
+      - net-iam
 
     command:
       # EntryPoints
@@ -23,7 +23,7 @@ services:
       # Providers 
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--providers.docker.network=net_iam"
+      - "--providers.docker.network=net-iam"
 
       # API & Dashboard 
       - "--api.dashboard=true"
@@ -64,7 +64,7 @@ services:
     
     restart: unless-stopped
     networks:
-      - net_iam
+      - net-iam
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
@@ -79,7 +79,7 @@ services:
   whoami-api:
     image: "traefik/whoami"
     networks:
-      - net_iam
+      - net-iam
     container_name: "whoami-api"
     environment:
       - WHOAMI_NAME=API Service
@@ -94,7 +94,7 @@ services:
 
 
 networks:
-  net_iam:
+  net-iam:
     external: true
-    name: net_iam
+    name: net-iam
         

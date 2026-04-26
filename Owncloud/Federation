@@ -58,3 +58,50 @@ Membership Attribute Type: DN
 
 User Roles Retrieve Strategy: LOAD_GROUPS_BY_MEMBER_ATTRIBUTE
 Mode: LDAP_ONLY
+
+
+
+
+
+
+----------------------------GROUPS MAppers
+
+ID
+592a9d82-d926-405f-9333-c2489d2bd791
+Name * 
+groups
+Mapper type * 
+group-ldap-mapper
+LDAP Groups DN 
+ou=groups,dc=nova,dc=org
+Group Name LDAP Attribute 
+cn
+Group Object Classes 
+groupOfNames
+Preserve Group Inheritance 
+
+On
+Ignore Missing Groups 
+
+Off
+Membership LDAP Attribute 
+member
+Membership Attribute Type 
+
+DN
+Membership User LDAP Attribute 
+uid
+LDAP Filter 
+Mode 
+
+LDAP_ONLY
+User Groups Retrieve Strategy 
+
+LOAD_GROUPS_BY_MEMBER_ATTRIBUTE
+Member-Of LDAP Attribute 
+memberOf
+Mapped Group Attributes 
+Drop non-existing groups during sync 
+
+Off
+Groups Path 

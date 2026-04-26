@@ -9,10 +9,10 @@ services:
     volumes:
       - privacyidea_db_data:/var/lib/postgresql/data
     networks:
-      - net_iam
+      - net-iam
 
   privacyidea_server:
-    image: kheeklab/privacyidea:dev
+    image: khalibre/privacyidea:dev
     container_name: privacyidea_server
     ports:
       - "${PRIVACYIDEA_PORT}:8080"
@@ -31,12 +31,12 @@ services:
     depends_on:
       - privacyidea_db
     networks:
-      - net_iam
+      - net-iam
 
 networks:
-  net_iam:
+  net-iam:
     external: true
-    name: net_iam
+    name: net-iam
 
 volumes:
   privacyidea_db_data:

@@ -1,0 +1,59 @@
+Root URL 
+http://master.local:9100/
+
+Home URL 
+http://master.local:9100/
+
+Valid redirect URIs 
+http://master.local:9100/apps/sociallogin/custom_oidc/keycloak
+http://master.local:9100/apps/user_oidc/code
+
+Valid post logout redirect URIs 
+http://master.local:9100/*
+
+Web origins 
+
+Ld2lSLvGV2OskiweV1TJbxTe3A854CDu
+
+
+
+
+
+xInternal name
+keycloak
+
+Title
+
+Authorize url
+http://master.local:9200/realms/nova/protocol/openid-connect/auth
+
+Token url
+http://master.local:9200/realms/nova/protocol/openid-connect/token
+
+Display name claim (optional)
+
+User info URL (optional)
+http://master.local:9200/realms/nova/protocol/openid-connect/userinfo
+
+Logout URL (optional)
+
+Client Id
+mrcloud
+
+Client Secret
+••••••••••••••••••••••••••••••••
+
+Scope
+openid email profile
+
+Groups claim (optional)
+
+Button style
+
+None
+
+Default group
+
+None
+
+Add group mapping
