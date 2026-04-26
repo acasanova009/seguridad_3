@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: keycloak-postgres
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "keycloak"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - net_iam
+
+  # Keycloak Authentication Server
+  # - Provides OAuth2/OpenID Connect functionality
+  # - Depends on PostgreSQL for data storage
+  # - Accessible on port 8080
+  # - Connected to PostgreSQL via keycloak-network
+  # - Configured for development mode with HTTP enabled
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.1.2
+    container_name: keycloak
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak_password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+
+      KC_HOSTNAME: keycloak.docker.localhost
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_HTTP_ENABLED: true
+    command:
+      - start-dev
+
+    labels:
+      - "traefik.enable=true"
+      # Path-based routing
+      - "traefik.http.routers.keycloak.rule=Host(`keycloak.docker.localhost`)"
+      - "traefik.http.routers.keycloak.entrypoints=websecure"
+      - "traefik.http.routers.keycloak.tls=true"
+
+      
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - net_iam
+
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    labels:
+      - "traefik.enable=true"
+      # Path-based routing
+      - "traefik.http.routers.grafana.rule=Host(`grafana.docker.localhost`)"
+      - "traefik.http.routers.grafana-api.entrypoints=web"
+    depends_on:
+      - keycloak
+    volumes:
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+    networks:
+      - net_iam
+
+volumes:
+  postgres_data:
+    name: keycloak_postgres_data
+
+networks:
+  net_iam:
+    external: true
+    name: net_iam

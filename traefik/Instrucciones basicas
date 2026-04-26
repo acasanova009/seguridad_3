@@ -1,0 +1,22 @@
+http://localhost:8080/dashboard/
+
+-------------------------------------------------------------------------
+
+
+htpasswd -nb admin "admin" | sed -e 's/\$/\$\$/g'
+
+admin:$$apr1$$mjeQVjAb$$QeZy0unZXIiS.Po/9KLAX0
+
+
+-------------------------------------------------------------------------
+Certs
+
+mkdir -p certs
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout certs/local.key -out certs/local.crt \
+  -subj "/CN=*.docker.localhost"
+
+
+
+ # Attach the static configuration tls.yaml file that contains the tls configuration settings
+      - "--providers.file.filename=/dynamic/tls.yaml"
