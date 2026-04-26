@@ -32,7 +32,7 @@ services:
       MYSQL_PASSWORD: nextcloud
       NEXTCLOUD_ADMIN_USER: admin
       NEXTCLOUD_ADMIN_PASSWORD: admin
-      NEXTCLOUD_TRUSTED_DOMAINS: localhost 127.0.0.1 mrcloud.local keycloak.local
+      NEXTCLOUD_TRUSTED_DOMAINS: localhost 192.168.1.103 master.local
     links:
       - db
     volumes:

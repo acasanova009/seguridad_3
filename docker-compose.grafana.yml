@@ -34,8 +34,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:26.1.2
     container_name: keycloak
-    extra_hosts:
-      - "mrcloud.local:host-gateway"
+    
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
