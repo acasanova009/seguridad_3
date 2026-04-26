@@ -1,5 +1,10 @@
-docker tag keycloak-idea:1.0.1 keycloak-idea:latest
+docker build \
+  -t keycloak-idea:1.0.1 \
+  -t keycloak-idea:latest \
+  .
 
+
+docker image ls | grep idea
 -------------------------------------------------------------------DEV
 
 

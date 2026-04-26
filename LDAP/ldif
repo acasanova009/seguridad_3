@@ -18,7 +18,7 @@ dn: uid=seg1,ou=users,dc=nova,dc=org
 objectClass: top
 objectClass: person
 objectClass: organizationalPerson
-objectClass: inetOrgPerson
+objectClass: inetOrgPerson  
 uid: seg1
 cn: Carlos Ramírez
 givenName: Carlos

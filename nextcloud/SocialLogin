@@ -5,15 +5,15 @@ Title
 keycloak
 
 Authorize url
-http://keycloak.local:9200/realms/nova/protocol/openid-connect/auth
+http://master.local:9200/realms/nova/protocol/openid-connect/auth
 
 Token url
-http://keycloak.local:9200/realms/nova/protocol/openid-connect/token
+http://master.local:9200/realms/nova/protocol/openid-connect/token
 
 Display name claim (optional)
 
 User info URL (optional)
-http://keycloak.local:9200/realms/nova/protocol/openid-connect/userinfo
+http://master.local:9200/realms/nova/protocol/openid-connect/userinfo
 
 Logout URL (optional)
 

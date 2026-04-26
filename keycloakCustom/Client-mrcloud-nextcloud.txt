@@ -1,0 +1,42 @@
+Capability config
+Client authentication 
+
+On
+Authorization 
+
+Off
+Authentication flow
+
+Standard flow
+
+
+Direct access grants
+
+
+Implicit flow
+
+
+Service accounts roles
+
+
+OAuth 2.0 Device Authorization Grant
+
+
+OIDC CIBA Grant
+
+
+
+
+
+Access settings
+Root URL 
+http://master.local:9100/
+Home URL 
+http://master.local:9100/
+Valid redirect URIs 
+http://master.local:9100/apps/sociallogin/custom_oidc/keycloak
+http://master.local:9100/apps/user_oidc/code
+Valid post logout redirect URIs 
+http://master.local:9100/*
+Web origins 
+Admin URL 

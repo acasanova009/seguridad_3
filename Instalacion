@@ -1,12 +1,13 @@
 docker network create net-iam
 docker network create test-net
 
+docker compose -f docker-compose.keycloak.yml
+docker compose -f docker-compose.grafana.yml
 docker compose -f docker-compose.ldap.yml
+docker compose -f ./nextcloud/docker-compose.nextcloud.yml
 docker compose -f docker-compose.privacyidea.yml
+
+
+
 docker compose -f docker-compose.ocis.yml
 docker compose -f docker-compose.owncloud.yml
-docker compose -f docker-compose.keycloak.yml
-
-docker compose -f docker-compose.grafana.yml
-docker compose -f ./nextcloud/docker-compose.nextcloud.yml
-

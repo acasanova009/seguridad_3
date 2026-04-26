@@ -1,5 +1,5 @@
 
-Resumen FINAL actualizado de la federation
+-------------------------------------------------------------Federation
 Conexión
 Vendor: Other
 Connection URL: ldap://ldap-server:389
@@ -64,7 +64,7 @@ Mode: LDAP_ONLY
 
 
 
-----------------------------GROUPS MAppers
+----------------------------------------GROUPS Mappers
 
 ID
 592a9d82-d926-405f-9333-c2489d2bd791

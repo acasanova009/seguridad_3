@@ -1,0 +1,50 @@
+Alias * 
+pIDEA
+Authenticator Reference 
+Authenticator Reference Max Age 
+PrivacyIDEA URL 
+http://master.local:9000/
+Realm 
+nova
+Verify SSL 
+
+Off
+Enable Trigger Challenge 
+
+Off
+Service Account 
+Service Account Password 
+Service Account Realm 
+Send Password 
+
+On
+Send Static Password 
+
+Off
+Static Password 
+Disable Password Check 
+
+Off
+Disable Passkey Login 
+
+Off
+Passkey Only 
+
+Off
+Included groups 
+Excluded groups 
+Auto-Submit OTP Length 
+6
+Forward Client IP 
+
+On
+HTTP Timeout (ms) 
+Headers to Forward 
+Custom Headers 
+Poll in Browser 
+
+Off
+URL for Poll in Browser 
+Enable Logging 
+
+On
