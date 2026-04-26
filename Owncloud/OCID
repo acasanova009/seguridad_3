@@ -1,31 +1,14 @@
 
-docker exec -it owncloud bash
-apt update && apt install nano -y
-nano /var/www/owncloud/config/config.php
+*****************http://owncloud:8081/index.php/apps/openidconnect/redirect
 
-curl -i http://keycloak:8080/realms/myrealm/.well-known/openid-configuration
 
-Externo
-http://localhost:9090/realms/myrealm
-Interno
-http://keycloak:8080/realms/myrealm
 
 docker compose -f docker-compose.owncloud.yml down
 
 
-
-Antes de Correr verificar OpenConnectID en terminal:
-
-*****************http://owncloud:8081/index.php/apps/openidconnect/redirect
-
-docker exec --user www-data owncloud occ config:app:set openidconnect
-
 docker exec --user www-data owncloud occ app:enable openidconnect
 docker exec --user www-data owncloud occ config:system:set http.cookie.samesite --value="None"
 
-
-docker logs -f owncloud
-docker exec -it owncloud grep "openidconnect" /mnt/data/files/owncloud.log
 
 
 
@@ -40,6 +23,7 @@ docker exec --user www-data owncloud occ config:app:set openidconnect openid-con
   "mode": "email",
   "search-attribute": "email",
   "scope": "openid offline_access email profile",
+  "allowed-user-backends": ["LDAP", "OCA\\OpenIDConnect\\UserBackend"],
   "auto-provision": {
     "enabled": true,
     "email-claim": "email",
@@ -50,6 +34,7 @@ docker exec --user www-data owncloud occ config:app:set openidconnect openid-con
     }
   }
 }'
+
 
   "allow_unverified_delivery":true
   "creation-enabled":true
@@ -88,4 +73,8 @@ Para system:
 docker exec --user www-data owncloud occ config:list system
 
 
+
+Logs:
+docker logs -f owncloud
+docker exec -it owncloud grep "openidconnect" /mnt/data/files/owncloud.log
 

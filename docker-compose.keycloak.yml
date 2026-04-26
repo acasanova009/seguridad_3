@@ -31,10 +31,11 @@ services:
     networks:
       - net_iam
 
+volumes:
+  keycloak_db_data:
+
 networks:
   net_iam:
     external: true
     name: net_iam
 
-volumes:
-  keycloak_db_data:

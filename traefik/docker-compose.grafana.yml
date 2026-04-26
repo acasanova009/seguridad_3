@@ -34,29 +34,27 @@ services:
       KC_DB_PASSWORD: keycloak_password
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-
       KC_HOSTNAME: keycloak.docker.localhost
-      KC_HOSTNAME_STRICT: false
-      KC_HOSTNAME_STRICT_HTTPS: false
-      KC_HTTP_ENABLED: true
+      KC_HOSTNAME_STRICT: "false"
+      KC_HTTP_ENABLED: "true"
+      KC_PROXY_HEADERS: xforwarded
+
     command:
       - start-dev
 
     labels:
       - "traefik.enable=true"
-      # Path-based routing
       - "traefik.http.routers.keycloak.rule=Host(`keycloak.docker.localhost`)"
       - "traefik.http.routers.keycloak.entrypoints=websecure"
       - "traefik.http.routers.keycloak.tls=true"
-
-      
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
 
     depends_on:
       postgres:
         condition: service_healthy
+
     networks:
       - net_iam
-
 
   grafana:
     image: grafana/grafana:latest

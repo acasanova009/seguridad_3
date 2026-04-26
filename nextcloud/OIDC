@@ -1,0 +1,50 @@
+Custom OpenID Connect 
+xInternal name
+keycloak
+
+Title
+keycloak
+
+Authorize url
+http://keycloak:8080/realms/nova/protocol/openid-connect/auth
+
+Token url
+http://keycloak:8080/realms/nova/protocol/openid-connect/token
+
+Display name claim (optional)
+
+User info URL (optional)
+http://keycloak:8080/realms/nova/protocol/openid-connect/userinfo
+
+Logout URL (optional)
+http://keycloak:8080/protocol/openid-connect/logout?post_logout_redirect_uri=https%3A%2F%2Fmrcloud:80&client_id=mrcloud
+
+Client Id
+mrcloud
+
+Client Secret
+••••••••••••••••••••••••••••••••
+
+Scope
+openid groups-nextcloud email offline_access profile
+
+Groups claim (optional)
+groups
+
+Button style
+
+Keycloak
+
+Default group
+
+None
+
+Add group mapping
+nextcloud-admins
+
+admin
+x
+nextcloud-users
+
+users
+x
