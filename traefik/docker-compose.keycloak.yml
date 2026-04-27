@@ -1,0 +1,64 @@
+services:
+
+
+  keycloak_db:
+    image: postgres:15-alpine
+    container_name: keycloak_db
+    environment:
+      POSTGRES_DB: ${KC_DB_NAME}
+      POSTGRES_USER: ${KC_DB_USER}
+      POSTGRES_PASSWORD: ${KC_DB_PASSWORD}
+
+    volumes:
+      - keycloak_postgres_data:/var/lib/postgresql/data
+    networks:
+      - proxy-net
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.6.1
+    container_name: keycloak
+    restart: unless-stopped
+    command:
+      - start
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD}
+
+      KC_DB: postgres
+      KC_DB_URL_HOST: keycloak_db
+      KC_DB_URL_PORT: 5432
+      KC_DB_URL_DATABASE: ${KC_DB_NAME}
+      KC_DB_USERNAME: ${KC_DB_USER}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
+
+      KC_HOSTNAME: https://keycloak.nova.io
+      KC_HOSTNAME_STRICT: "true"
+      KC_PROXY_HEADERS: xforwarded
+      KC_HTTP_ENABLED: "true"
+
+      KC_TRUSTSTORE_PATHS: /opt/keycloak/conf/truststores
+
+    volumes:
+      - ./dynamic/certs/:/opt/keycloak/conf/truststores:ro
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak.rule=Host(`keycloak.nova.io`)"
+      - "traefik.http.routers.keycloak.entrypoints=websecure"
+      - "traefik.http.routers.keycloak.tls=true"
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+
+    depends_on:
+      - keycloak_db
+    networks:
+      - proxy-net
+
+      
+volumes:
+  keycloak_postgres_data:
+    name: keycloak_postgres_data
+
+networks:
+  proxy-net:
+    external: true
+    name: proxy-net
