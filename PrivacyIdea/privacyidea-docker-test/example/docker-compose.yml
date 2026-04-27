@@ -1,0 +1,52 @@
+version: '2.1'
+
+services:
+  pi-db:
+    image: 'docker.io/bitnami/mariadb:10.4'
+    ports:
+      - '3306:3306'
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_DATABASE=privacyidea
+      - MARIADB_USER=privacyidea
+      - MARIADB_PASSWORD=privacyidea@123
+  pi:
+    image: 'khalibre/privacyidea:dev'
+    ports:
+      - '8080:8080'
+    environment:
+      - PI_DB_VENDOR="mariadb"
+      - PI_DB_NAME="privacyidea"
+      - PI_DB_HOST="pi-db"
+      - PI_DB_USER="privacyidea"
+      - PI_DB_PASSWORD=privacyidea@123
+      - PI_SECRET_KEY="suppersecretkey"
+      - PI_PEPPER="secretworduseforadminencrypt"
+      - PI_PAGE_TITLE=pivacyIDEA
+      - PI_SUPERUSER_REALM="administrator,api"
+      - PI_DB_ARGS="ssl_check_hostname=false"
+    depends_on:
+      - pi-db
+  wp-db:
+    image: 'docker.io/bitnami/mariadb:10.4'
+    ports:
+      - '3307:3306'
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_DATABASE=wordpress
+      - MARIADB_USER=wordpress
+      - MARIADB_PASSWORD=wordpress
+  wp:
+    image: docker.io/bitnami/wordpress:6
+    ports:
+      - '8081:8080'
+    depends_on:
+      - wp-db
+    environment:
+      - WORDPRESS_DATABASE_HOST=wp-db
+      - WORDPRESS_DATABASE_PORT_NUMBER=3306
+      - WORDPRESS_DATABASE_USER=wordpress
+      - WORDPRESS_DATABASE_NAME=wordpress
+      - WORDPRESS_DATABASE_PASSWORD=wordpress

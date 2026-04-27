@@ -1,0 +1,16 @@
+schemaVersion: 2.0.0
+
+metadataTest:
+  envVars:
+    - key: PI_SKIP_BOOTSTRAP
+      value: "false"
+    - key: PI_DB_VENDOR
+      value: "sqlite"
+  workdir: "/opt/privacyidea"
+  entrypoint: ["/usr/bin/tini", "--", "/usr/local/bin/privacyidea_entrypoint.sh"]
+  exposedPorts: ["8080"]
+
+fileExistenceTests:
+- name: 'Template directory'
+  path: '/opt/templates'
+  shouldExist: true
