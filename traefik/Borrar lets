@@ -1,0 +1,20 @@
+echo "{}" > ./letsencrypt/acme.json
+chmod 600 ./letsencrypt/acme.json
+
+
+Para grafana.
+docker run cloudflare/cloudflared:latest tunnel --no-autoupdate run --token eyJhIjoiOTQ4NzMyMTk3ZTZlNDg2Yjg2ZGQ0MzY1YzMyMTRjNGUiLCJ0IjoiY2RhNTU4MGQtZGVkMC00ZjlkLWExNmItODhjNzcwMzQ1NGFjIiwicyI6Ik1XTXpZMlZtTmpjdE9EUmpPUzAwWlRnd0xUZzVOV0l0TkRVMU9XVTVaalV6TmpWaCJ9
+
+Para traefik.
+docker run cloudflare/cloudflared:latest tunnel --no-autoupdate run --token eyJhIjoiOTQ4NzMyMTk3ZTZlNDg2Yjg2ZGQ0MzY1YzMyMTRjNGUiLCJ0IjoiMDVjNTA2YWQtNjIxNC00OWVjLTljYTUtMDg1ZTYzNWI5ZGFlIiwicyI6Ill6QTFNMkZqWVdFdE5HUXhZeTAwTlRJeUxXSmxNREF0WXpsa1pHWTRNR05pWVRjeCJ9
+
+
+    labels:
+      - "traefik.enable=true"
+      # Use your actual domain here
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard.novamoonlight.com`)"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.tls=true"
+      # This line links the router to the Cloudflare resolver
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"

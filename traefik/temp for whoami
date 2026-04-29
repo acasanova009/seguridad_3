@@ -1,0 +1,9 @@
+    labels:
+      - "traefik.enable=true"
+      # Use your actual domain here
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard.novamoonlight.com`)"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.tls=true"
+      # This line links the router to the Cloudflare resolver
+      - "traefik.http.routers.dashboard.tls.certresolver=le"
