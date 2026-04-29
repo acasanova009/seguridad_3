@@ -1,5 +1,5 @@
 docker network create net-iam
-docker network create test-net
+docker network create proxy-net
 
 docker compose -f docker-compose.keycloak.yml
 docker compose -f docker-compose.grafana.yml
