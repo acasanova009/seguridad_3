@@ -11,3 +11,6 @@ docker compose -f docker-compose.privacyidea.yml
 
 docker compose -f docker-compose.ocis.yml
 docker compose -f docker-compose.owncloud.yml
+
+
+testingas
